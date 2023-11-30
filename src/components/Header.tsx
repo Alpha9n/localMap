@@ -1,7 +1,9 @@
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Avatar } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Avatar, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
 import Link from "next/link";
+import { ThemeSwitch } from "./ThemeSwitch";
 
 const Header = () => {
+
     return (
       <Navbar>
         <NavbarBrand>
@@ -9,7 +11,21 @@ const Header = () => {
         </NavbarBrand>
         <NavbarContent justify="end">
           <NavbarItem>
-            <Avatar name="test" className="cursor-pointer" as={Link} href="/settings"/>
+            <Dropdown
+              placement="bottom"
+            >
+              <DropdownTrigger>
+                <Avatar name="test" className="cursor-pointer" isBordered as={'button'}/>
+              </DropdownTrigger>
+              <DropdownMenu>
+                <DropdownItem key={'settings'} href="/settings">
+                  Settings
+                </DropdownItem>
+                <DropdownItem key={'logout'}>
+                  Logout
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </NavbarItem>
         </NavbarContent>
       </Navbar>
