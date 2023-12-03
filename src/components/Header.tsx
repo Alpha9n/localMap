@@ -21,7 +21,7 @@ const Header = () => {
                 <DropdownItem key={'settings'} href="/settings">
                   Settings
                 </DropdownItem>
-                <DropdownItem key={'logout'}>
+                <DropdownItem key={'logout'} isDisabled={true}>
                   Logout
                 </DropdownItem>
               </DropdownMenu>

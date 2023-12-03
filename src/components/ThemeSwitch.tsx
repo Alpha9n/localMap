@@ -15,7 +15,7 @@ export const ThemeSwitch = () => {
   if (!mounted) {
     return null;
   }
-
+  
   return (
     <Select 
     label="テーマを選択" 

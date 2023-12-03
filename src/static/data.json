@@ -1,0 +1,26 @@
+[
+    {
+        "title": "天王寺動物園",
+        "description": "動物園",
+        "location": [34.65080596190109, 135.50896953737845],
+        "imgUrl": "https://prcdn.freetls.fastly.net/release_image/9848/1348/9848-1348-804cf034a7e9e22aed0851283c971754-1200x896.jpg?format=jpeg&auto=webp&quality=85%2C75&width=1950&height=1350&fit=bounds",
+        "officialLink": "https://www.tennojizoo.jp/",
+        "tag": "pilgrimagePlace"
+    },
+    {
+        "title": "HAL大阪",
+        "description": "専門学校",
+        "location": [34.69987764313737, 135.49309347246125],
+        "imgUrl": "https://pds.exblog.jp/pds/1/202004/21/59/c0112559_08294497.jpg",
+        "officialLink": "https://www.hal.ac.jp/osaka",
+        "tag": "pilgrimagePlace"
+    },
+    {
+        "title": "test",
+        "description": "hoge",
+        "location": [34.69987764313737, 135.49309347246125],
+        "imgUrl": "https://pds.exblog.jp/pds/1/202004/21/59/c0112559_08294497.jpg",
+        "officialLink": "https://www.hal.ac.jp/osaka",
+        "tag": "hoge"
+    }
+]

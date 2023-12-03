@@ -6,6 +6,7 @@ import React from "react";
 const render = (status: Status) => {
     const center = { lat: 34.70256475633783, lng: 135.495982783378 };
     const zoom = 12;
+    
     switch(status) {
         case Status.LOADING:
             return <Spinner className="w-full h-full"/>

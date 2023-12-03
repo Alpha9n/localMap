@@ -3,8 +3,8 @@ import { ThemeSwitch } from "@/components/ThemeSwitch";
 
 export default function Settings() {
     return (
-        <main className="min-h-screen md:py-10">
-            <div className="mx-auto w-5/6">
+        <main className="h-fit md:py-10">
+            <div className="md:mx-auto md:rounded-xl md:w-5/6 h-full bg-foreground-200 py-3 px-5">
                 <Heading
                     level={1} text={"環境設定"}
                 />

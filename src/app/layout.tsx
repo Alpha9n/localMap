@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
       <html lang="ja">
-          <body className={inter.className + "dark:text-gray-50 h-screen"}>
+          <body className={inter.className + "text-foreground-50 dark:bg-foreground-100 h-screen"}>
             <Providers>
                 <Header/>
                 {children}
