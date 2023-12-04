@@ -3,6 +3,7 @@ import { FaStar, FaRegStar } from 'react-icons/fa6';
 import { IoMdPin } from 'react-icons/io';
 import data from '@/static/data.json';
 import React from "react";
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 interface ListSelectionProps {
     listTag: 'pilgrimagePlace' | 'all';
@@ -20,7 +21,8 @@ interface LocationProps {
 }
 
 export const LocationCard = ({title, description, link, imgLink, latLng, locButtonCallback}: LocationProps) => {
-    const [isFollowed, setIsFollowed] = React.useState(false);
+    const {value, setValueAndStrage} = useLocalStorage(title, 'false');
+
     return (
         <Card className="w-full min-w-[350px] h-[150px]">
             <CardHeader className="justify-between">
@@ -44,15 +46,17 @@ export const LocationCard = ({title, description, link, imgLink, latLng, locButt
                     <IoMdPin/>
                 </Button>
                 <Button
-                    className={isFollowed ? "bg-transparent text-foreground border-default-200" : ""}
+                    className={value === 'true' ? "bg-transparent text-foreground border-default-200" : ""}
                     color="primary"
                     radius="full"
                     size="md"
-                    variant={isFollowed ? "bordered" : "solid"}
-                    onPress={() => setIsFollowed(!isFollowed)}
+                    variant={value === 'true' ? "bordered" : "solid"}
+                    onPress={() => {
+                        setValueAndStrage(value==='true' ? 'false' : 'true');
+                    }}
                     isIconOnly
                 >
-                    {isFollowed ? <FaStar /> : <FaRegStar /> }
+                    {value === 'true' ? <FaStar /> : <FaRegStar /> }
                 </Button>
             </div>
             </CardHeader>
