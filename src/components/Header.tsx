@@ -19,10 +19,10 @@ const Header = () => {
               </DropdownTrigger>
               <DropdownMenu>
                 <DropdownItem key={'settings'} href="/settings">
-                  Settings
+                  設定
                 </DropdownItem>
-                <DropdownItem key={'logout'} isDisabled={true}>
-                  Logout
+                <DropdownItem key={'login'} isDisabled={true}>
+                  ログイン
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
