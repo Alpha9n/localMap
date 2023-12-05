@@ -9,7 +9,7 @@ export default function useLocalStorage(key: string, initialValue?: string) {
             return setValue("local storage is empty");
         }
         setValue(res);
-    }, []);
+    }, [key, value]);
 
     const setValueAndStrage = (newValue: string): undefined => {
         window.localStorage.setItem(key, newValue);

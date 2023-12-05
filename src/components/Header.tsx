@@ -21,7 +21,7 @@ const Header = () => {
                 <DropdownItem key={'settings'} href="/settings">
                   設定
                 </DropdownItem>
-                <DropdownItem key={'login'} isDisabled={true}>
+                <DropdownItem key={'login'} isDisabled>
                   ログイン
                 </DropdownItem>
               </DropdownMenu>

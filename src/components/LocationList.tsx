@@ -1,24 +1,30 @@
 import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Link } from '@nextui-org/react';
 import { FaStar, FaRegStar } from 'react-icons/fa6';
 import { IoMdPin } from 'react-icons/io';
-import data from '@/static/data.json';
 import React from "react";
 import useLocalStorage from '@/hooks/useLocalStorage';
-
-interface ListSelectionProps {
-    listTag: 'pilgrimagePlace' | 'all';
-    setMapZoom: React.Dispatch<React.SetStateAction<number>>;
-    setMapCenter: React.Dispatch<React.SetStateAction<google.maps.LatLngLiteral>>
-}
+import { type } from 'os';
+import { listTag } from './CreatePlace';
 
 interface LocationProps {
-    title:          string
-    description:    string
-    link:           string
-    imgLink:        string
-    locButtonCallback: Function
-    latLng:         google.maps.LatLngLiteral
-}
+    title:          string;
+    description:    string;
+    link:           string;
+    imgLink:        string;
+    locButtonCallback: Function;
+    latLng:         google.maps.LatLngLiteral;
+};
+
+export type LocationListTag = typeof listTag[number]['tag'];
+
+export interface LocationDataValues {
+    title:          string;
+    description:    string;
+    link:           string;
+    imgLink:        string;
+    latLng:         google.maps.LatLngLiteral;
+    tag:            LocationListTag;
+};
 
 export const LocationCard = ({title, description, link, imgLink, latLng, locButtonCallback}: LocationProps) => {
     const {value, setValueAndStrage} = useLocalStorage(title, 'false');
@@ -40,7 +46,7 @@ export const LocationCard = ({title, description, link, imgLink, latLng, locButt
                     radius="full"
                     size="md"
                     onPress={() => {
-                        locButtonCallback(latLng, title, description);
+                        locButtonCallback(latLng, title, description, link, imgLink);
                     }}
                 >
                     <IoMdPin/>
