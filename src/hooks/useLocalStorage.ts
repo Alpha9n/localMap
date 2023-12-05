@@ -6,7 +6,7 @@ export default function useLocalStorage(key: string, initialValue?: string) {
     useEffect(() => {
         const res = window.localStorage.getItem(key);
         if (!res) {
-            return setValue("local storage is empty");
+            return setValue(initialValue??'');
         }
         setValue(res);
     }, [key, value]);
