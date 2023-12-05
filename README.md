@@ -5,11 +5,23 @@
 - このリポジトリは、cloudflare Pagesを用いて、[こちらのページ](https://deploy.kosuke.dev/local-map)で公開しています。
 - 今回はNext.jsのAppRouer、Tailwind CSSを用いて、Google Maps APIを用いた地図アプリを作成しました。
 
+
+## こだわったところ
+- 設定画面でマップのコントロール・テーマを設定できます。
+- マップ上をクリックすると、ピンを追加するフォームが表示されます、未完成です。(無念...)
+- おすすめリストは、JSONファイルに記述したデータを読み込んで表示しています。
+- ローカルストレージに設定を保存しています。
+- マップの表示は、googlemaps-reactWrapperを用いています。
+- 複数のリストに対応できるよう、リストはタグにて分けられるようにしています。
+- APIKEYは、環境変数に設定しています。
+
+
 ## 使用した技術
 - [Node.js](https://nodejs.org/ja/)  
 - [Next.js](https://nextjs.org/)  
 - [Tailwind CSS](https://tailwindcss.com/)  
 - [Cloudflare Pages](https://pages.cloudflare.com/)  
+
 
 ## ローカルでの実行方法
 1. このリポジトリをクローンする
@@ -18,13 +30,14 @@
 3. `npm run dev`を実行する
 4. [http://localhost:3000](http://localhost:3000)にアクセスする
 
+
 ## 主要なファイル構成
 ```
 .
 ├── README.md
 ├── src
 │   ├── components/
-│   │   ├── CreatePlace.tsx     // マップ上をクリックすると呼び出されるピン追加用フォーム(未完成)
+│   │   ├── CreatePlace.tsx     // マップ上をクリックすると呼び出されるピン追加用フォーム (未完成)
 │   │   ├── GoogleMaps.tsx      // Google Maps APIを用いたマップ表示
 │   │   ├── Header.tsx          // ヘッダー
 │   │   ├── LocationList.tsx    // おすすめリストを表示するコンポーネント
@@ -33,12 +46,12 @@
 │   │   └── useLocalStorage.ts  // ローカルストレージをstate管理するためのフック
 │   ├── app/
 │   │   ├── layout.tsx            // ルートコンポーネント
-│   │   ├── page.tsx              // メインページ
-│   │   ├── global.css            // グローバルCSS(tailwindの指定等)
+│   │   ├── page.tsx              // メインページ (htmlファイル+jsファイルを統合したファイル)
+│   │   ├── global.css            // グローバルCSS (tailwindの指定等)
 │   │   └── settings/
-│   │       └── page.tsx          // 設定ページ(画面上のコントロール等の設定)
+│   │       └── page.tsx          // 設定ページ (画面上のコントロール等の設定)
 │   └── static/
 │       └── data.json             // 聖地巡礼のロケーションデータを格納したJSON
-└── .env                          // 環境変数(NEXT_PUBLIC_GOOGLEMAP_APIKEY をGoogleのAPIキーに設定)
+└── .env                          // 環境変数 (NEXT_PUBLIC_GOOGLEMAP_APIKEY をGoogleのAPIキーに設定)
 ```
 
