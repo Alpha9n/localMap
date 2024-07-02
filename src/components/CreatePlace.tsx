@@ -10,10 +10,9 @@ interface CreatePlaceModalProps {
     latlng: google.maps.LatLngLiteral;
 }
 
-export const listTag = [
-    {title: "呪術廻戦-聖地巡礼", tag: "pilgrimagePlace-jujutu" , description: "呪術廻戦全編の聖地をまとめたリスト"},
-    {title: "食い倒れ-大阪", tag: "kuidaore-osaka" , description: "大阪市内の食い倒れスポットをまとめたリスト"}
-] as const
+export let listTag = [
+    {title: "お気に入り", tag: "favorite" , description: "お気に入りの地点リストです。"}
+]
 
 export default function CreatePlaceModal({latlng, isOpen, onOpen, onOpenChange}: CreatePlaceModalProps) {
     const { handleSubmit, control, register } = useForm<LocationDataValues>();
