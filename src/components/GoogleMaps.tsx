@@ -27,7 +27,7 @@ export const MapRender = (status: Status) => {
 
 
 export const MapComponent = ({ onClick, onIdle, children, ...options }: MapProps) => {
-    const { value, setValueAndStrage } = useLocalStorage('settings', '{"mapTypeControl":false,"selectedMapType":"hybrid","zoomControl":true,"streetViewControl":false,"fullscreenControl":false}');
+    const { value, setValueAndStorage} = useLocalStorage('settings', '{"mapTypeControl":false,"selectedMapType":"hybrid","zoomControl":true,"streetViewControl":false,"fullscreenControl":false}');
     const ref = React.useRef<HTMLDivElement>(null);
     const [map, setMap] = React.useState<google.maps.Map>();
 

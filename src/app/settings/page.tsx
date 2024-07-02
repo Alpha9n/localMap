@@ -31,7 +31,7 @@ const mapTypeList = [
 ]
 
 export default function Settings() {
-    const {value, setValueAndStrage} = useLocalStorage('settings', '{"mapTypeControl":false,"selectedMapType":"roadmap","zoomControl":true,"streetViewControl":false,"fullscreenControl":false}');
+    const {value, setValueAndStorage} = useLocalStorage('settings', '{"mapTypeControl":false,"selectedMapType":"roadmap","zoomControl":true,"streetViewControl":false,"fullscreenControl":false}');
 
     let storage: MapOpts = JSON.parse(value);
 
@@ -43,9 +43,9 @@ export default function Settings() {
 
     React.useEffect(() => {
         storage = JSON.parse(value);
-        setValueAndStrage(JSON.stringify({mapTypeControl, selectedMapType, zoomControl, streetViewControl, fullscreenControl}));
+        setValueAndStorage(JSON.stringify({mapTypeControl, selectedMapType, zoomControl, streetViewControl, fullscreenControl}));
         console.log(value);
-    }, [mapTypeControl, selectedMapType, setValueAndStrage, value]);
+    }, [mapTypeControl, selectedMapType, setValueAndStorage, value]);
 
     return (
         <main className="h-fit md:py-10">

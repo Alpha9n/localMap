@@ -3,7 +3,6 @@ import { FaStar, FaRegStar } from 'react-icons/fa6';
 import { IoMdPin } from 'react-icons/io';
 import React from "react";
 import useLocalStorage from '@/hooks/useLocalStorage';
-import { type } from 'os';
 import { listTag } from './CreatePlace';
 
 interface LocationProps {
@@ -27,7 +26,7 @@ export interface LocationDataValues {
 };
 
 export const LocationCard = ({title, description, link, imgLink, latLng, locButtonCallback}: LocationProps) => {
-    const {value, setValueAndStrage} = useLocalStorage(title, 'false');
+    const {value, setValueAndStorage} = useLocalStorage(title, 'false');
 
     return (
         <Card className="w-full min-w-[350px] h-[150px]">
@@ -58,7 +57,7 @@ export const LocationCard = ({title, description, link, imgLink, latLng, locButt
                     size="md"
                     variant={value === 'true' ? "bordered" : "solid"}
                     onPress={() => {
-                        setValueAndStrage(value==='true' ? 'false' : 'true');
+                        setValueAndStorage(value==='true' ? 'false' : 'true');
                     }}
                     isIconOnly
                 >

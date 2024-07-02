@@ -11,10 +11,10 @@ export default function useLocalStorage(key: string, initialValue?: string) {
         setValue(res);
     }, [key, value]);
 
-    const setValueAndStrage = (newValue: string): undefined => {
+    const setValueAndStorage = (newValue: string): undefined => {
         window.localStorage.setItem(key, newValue);
         setValue(newValue);
     };
 
-    return {value, setValueAndStrage};
+    return {value, setValueAndStorage};
 }
