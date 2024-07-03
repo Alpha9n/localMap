@@ -1,3 +1,4 @@
+'use client';
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Avatar, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
 import Link from "next/link";
 import { ThemeSwitch } from "./ThemeSwitch";
