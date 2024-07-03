@@ -9,7 +9,7 @@ export default function useLocalStorage(key: string, initialValue?: string) {
             return setValue(initialValue??'');
         }
         setValue(res);
-    }, [key, value]);
+    }, [initialValue, key, value]);
 
     const setValueAndStorage = (newValue: string): undefined => {
         window.localStorage.setItem(key, newValue);
