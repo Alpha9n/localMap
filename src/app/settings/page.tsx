@@ -1,11 +1,11 @@
-'use client'
+'use client';
 import Heading from "@/components/Heading";
 import { ThemeSwitch } from "@/components/ThemeSwitch";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { Select, SelectItem, Switch } from "@nextui-org/react";
 import React from "react";
 
-export type MapTypeId = 'roadmap' | 'hybrid' | 'satellite' | 'terrain'
+export type MapTypeId = 'roadmap' | 'hybrid' | 'satellite' | 'terrain';
 
 export interface MapOpts {
     mapTypeControl:     boolean;
@@ -44,8 +44,7 @@ export default function Settings() {
     React.useEffect(() => {
         storage = JSON.parse(value);
         setValueAndStorage(JSON.stringify({mapTypeControl, selectedMapType, zoomControl, streetViewControl, fullscreenControl}));
-        console.log(value);
-    }, [mapTypeControl, selectedMapType, setValueAndStorage, value]);
+    }, [mapTypeControl, selectedMapType, zoomControl, streetViewControl, fullscreenControl, setValueAndStorage, value]);
 
     return (
         <main className="h-[90%] md:py-10">
