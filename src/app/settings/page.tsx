@@ -48,7 +48,7 @@ export default function Settings() {
     }, [mapTypeControl, selectedMapType, setValueAndStorage, value]);
 
     return (
-        <main className="h-fit md:py-10">
+        <main className="h-[90%] md:py-10">
             <div className="md:mx-auto md:rounded-xl md:w-5/6 h-full bg-foreground-50 py-5 px-5">
                 <Heading
                     level={1} text={"環境設定"}
