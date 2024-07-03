@@ -2,7 +2,7 @@
 
 ## 概要
 - このリポジトリは、JS23 No.02の課題を管理するためのものです。
-- このリポジトリは、cloudflare Pagesを用いて、[こちらのページ](https://deploy.kosuke.dev/local-map)で公開しています。
+- このリポジトリは、cloudflare Pagesを用いて、[こちらのページ](https://local-map.kosuke.dev)で公開しています。
 - 今回はNext.jsのAppRouer、Tailwind CSSを用いて、Google Maps APIを用いた地図アプリを作成しました。
 
 
