@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { Select, SelectItem } from "@nextui-org/react";
 
-type Theme = 'system' | 'dark' | 'light';
-
 const themeList = [
   {label: 'System', value: 'system'},
   {label: 'Dark', value: 'dark'},
@@ -25,10 +23,11 @@ export const ThemeSwitch = () => {
   if (!mounted) {
     return null;
   }
+
   return (
     <Select 
       label="テーマを選択" 
-      defaultSelectedKeys={theme}
+      defaultSelectedKeys={[theme]}
       onChange={(e) => {setTheme(e.target.value)}}
       className="w-full" 
     >
