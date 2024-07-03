@@ -1,22 +1,17 @@
-'use client'
+'use client';
 import { MapComponent, MapRender, Marker } from "@/components/GoogleMaps";
 import { LocationCard, LocationListTag } from "@/components/LocationList";
 import { useGeolocated } from "react-geolocated";
-import data from "@/static/data.json";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Wrapper } from "@googlemaps/react-wrapper";
-import CreatePlaceModal from "@/components/CreatePlace";
-import { useDisclosure } from "@nextui-org/react";
-import { Loader } from "@googlemaps/js-api-loader";
-
-export interface Location {
-    title: string;
-    description: string;
-    location: number[];
-    imgUrl: string;
-    officialLink: string;
-    tag: string;
-}
+import CreatePlaceModal, { listTag } from "@/components/CreatePlace";
+import { Button, Divider, Select, SelectItem, useDisclosure } from "@nextui-org/react";
+import { FaPlus } from "react-icons/fa6";
+import CreateListModal from "@/components/CreateList";
+import { MapLocation } from "@/models/location";
+import { getLocations } from "@/repositories/dataController";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import { filterTag } from "@/utils/search";
 
 export default function Home() {
   const { coords } = useGeolocated({
@@ -26,17 +21,24 @@ export default function Home() {
     userDecisionTimeout: 5000,
   });
 
-  const lat = coords?.latitude ?? 34.70256475633783;
-  const lng = coords?.longitude ?? 135.495982783378;
+  const lat = coords?.latitude ?? 34.7025;
+  const lng = coords?.longitude ?? 135.4959;
 
-  const [mapMarkers, setMapMarkers] = React.useState<{ title: string, position: google.maps.LatLngLiteral, location: Location }[]>([]);
-  const [mapCenter, setMapCenter] = React.useState<google.maps.LatLngLiteral>({ lat: lat, lng: lng });
-  const [mapZoom, setMapZoom] = React.useState<number>(12);
-  const [clickEvent, setClickEvent] = React.useState<google.maps.MapMouseEvent>();
-  const [tagFilter, setTagFilter] = React.useState<LocationListTag>("pilgrimagePlace-jujutu");
+  const [mapMarkers, setMapMarkers] = useState<{ title: string, position: google.maps.LatLngLiteral, location: MapLocation }[]>([]);
+  const [mapCenter, setMapCenter] = useState<google.maps.LatLngLiteral>({ lat: lat, lng: lng });
+  const [mapZoom, setMapZoom] = useState<number>(12);
+  const [clickEvent, setClickEvent] = useState<google.maps.MapMouseEvent>();
+  const [tagFilter, setTagFilter] = useState<LocationListTag>("favorite");
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const selectedLocationList: Location[] = data.filter((elem) => elem.tag == tagFilter);
+  const setPointModal = useDisclosure();
+  const setListModal = useDisclosure();
+
+  const mapLocationsStorage = useLocalStorage('mapLocations', JSON.stringify(getLocations()));
+  const [mapLocations, setMapLocations] = useState<MapLocation[]>(JSON.parse(mapLocationsStorage.value));
+
+  useEffect(() => {
+    setMapLocations(JSON.parse(mapLocationsStorage.value));
+  }, [mapLocationsStorage.value]);
 
   const setMapOpts = (latLng: google.maps.LatLngLiteral, zoom: number) => {
     setMapCenter(latLng);
@@ -46,62 +48,104 @@ export default function Home() {
   const addMarker = (latLng: google.maps.LatLngLiteral, title: string, description: string, link: string, imgLink: string) => {
     const markers = mapMarkers.find((marker) => marker.title == title);
     if (!markers) {
-      setMapMarkers([...mapMarkers, { title, position: latLng, location: {
-        title: title, description: description, officialLink: link, imgUrl: imgLink, location: [latLng.lat, latLng.lng],
-        tag: tagFilter
-      }}]);
+      setMapMarkers([...mapMarkers, {
+        title, position: latLng, location: {
+          title: title,
+          description: description,
+          officialLink: link,
+          imgUrl: imgLink,
+          location: [latLng.lat, latLng.lng],
+          tag: tagFilter
+        }
+      }]);
     };
   };
 
-  const mapClick = (event: google.maps.MapMouseEvent) => {
+  const onMapClick = (event: google.maps.MapMouseEvent) => {
     setClickEvent(event);
     setMapCenter(event.latLng?.toJSON() ?? mapCenter);
     setMapZoom(15);
-    onOpen();
+    setPointModal.onOpen();
   };
 
-  // const onIdle = (map: google.maps.Map) => {
-  //   setMapZoom(map.getZoom()?? mapZoom);
-  //   setMapCenter(map.getCenter()?.toJSON ?? mapCenter);
-  // };
+  const onTagSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setTagFilter(e.target.value);
+  };
+
+  console.log('検索対象データ', mapLocations);
+  const filteringResult = filterTag(mapLocations, tagFilter ?? undefined);
 
   return (
-    <main className="h-5/6 md:py-10">
-      <div className="mx-auto w-full h-full md:w-5/6 md:flex md:bg-foreground-200 md:rounded-xl">
-        <div className="h-4/5 w-full md:h-full md:w-4/6 md:rounded-xl overflow-hidden items-center">
+    <main className="h-[93%] lg:py-10">
+      <div className="mx-auto w-full h-full lg:h-[90%] lg:w-5/6 lg:max-w-5xl lg:flex lg:bg-foreground-200 lg:rounded-xl">
+        <div className="h-[50%] w-full overflow-hidden items-center lg:h-full lg:w-4/6 lg:rounded-xl">
           <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLEMAP_APIKEY ?? ''} render={MapRender}>
-            <MapComponent zoom={mapZoom} center={mapCenter} onClick={mapClick}>
+            <MapComponent zoom={mapZoom} center={mapCenter} onClick={onMapClick}>
               {mapMarkers.map((markerSet): React.ReactNode => {
-                return(<Marker
+                return (<Marker
                   key={markerSet.title}
                   position={markerSet.position}
                   title={markerSet.title}
-                  animation={google.maps.Animation.DROP} 
+                  animation={google.maps.Animation.DROP}
                   location={markerSet.location}
                 />);
               })}
             </MapComponent>
           </Wrapper>
         </div>
-        <div className="min-h-1/5 p-4 flex gap-4 overflow-x-scroll overflow-y-hidden h-fit md:h-full md:grid md:content-start md:w-2/6 md:min-w-fit md:overflow-y-scroll md:overflow-x-hidden">
-          {selectedLocationList.map((loc) => {
-            return (<LocationCard
-              key={loc.title}
-              title={loc.title}
-              description={loc.description}
-              link={loc.officialLink}
-              imgLink={loc.imgUrl}
-              latLng={{ lat: loc.location[0], lng: loc.location[1] }}
-              locButtonCallback={(latLng: google.maps.LatLngLiteral, title: string, description: string, link: string, imgLink: string) => {
-                console.log("before:", mapCenter);
-                setMapOpts(latLng, 15);
-                addMarker(latLng, title, description, link, imgLink);
-                console.log("clicked", latLng, mapMarkers);
-              }} />);
-          })}
+        <div className="p-4 gap-4 grid bg-default-200 rounded-xl lg:h-full">
+          <div className="flex gap-4 lg:justify-between">
+            <Select
+              isRequired
+              label="地点リスト"
+              labelPlacement="outside"
+              className="min-w-[9rem] max-w-60 mt-auto"
+              defaultSelectedKeys={"all"}
+              onChange={onTagSelection}
+            >
+              {listTag.map((value) => (
+                <SelectItem key={value.tag}>
+                  {value.title}
+                </SelectItem>
+              ))}
+            </Select>
+            <Button 
+              color="primary"
+              startContent={<FaPlus/>}
+              className="min-w-40 mt-auto"
+              onClick={setListModal.onOpen}>
+              リストを追加
+            </Button>
+          </div>
+          <Divider className="hidden lg:grid"/>
+          <div className="flex gap-4 overflow-x-scroll overflow-y-hidden h-fit lg:h-full lg:grid lg:content-start lg:w-2/6 lg:min-w-fit lg:overflow-y-scroll lg:overflow-x-hidden">
+            {(filteringResult.length <= 0) ? (
+              <div className="w-full min-w-[20rem] h-[150px]">
+                <p>地点を登録してください。</p>
+              </div>
+            ) : filteringResult.map((loc) => {
+              return (
+                <LocationCard
+                  key={loc.title}
+                  title={loc.title}
+                  description={loc.description}
+                  link={loc.officialLink}
+                  imgLink={loc.imgUrl}
+                  latLng={{ lat: loc.location[0], lng: loc.location[1] }}
+                  locButtonCallback={(latLng: google.maps.LatLngLiteral, title: string, description: string, link: string, imgLink: string) => {
+                    setMapOpts(latLng, 15);
+                    addMarker(latLng, title, description, link, imgLink);
+                  }}/>
+              );
+            })
+            }
+          </div>
         </div>
-        <CreatePlaceModal isOpen={isOpen} onOpen={onOpen} onOpenChange={onOpenChange} latlng={clickEvent?.latLng?.toJSON() ?? mapCenter} />
+        <CreateListModal isOpen={setListModal.isOpen} onOpen={setListModal.onOpen} onOpenChange={setListModal.onOpenChange}/>
+        <CreatePlaceModal isOpen={setPointModal.isOpen} onOpen={setPointModal.onOpen} onOpenChange={setPointModal.onOpenChange} latlng={clickEvent?.latLng?.toJSON() ?? mapCenter} />
       </div>
     </main>
   );
 }
+
+
