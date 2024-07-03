@@ -1,7 +1,6 @@
-import { Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Tooltip, UseDisclosureProps, useDisclosure, Button, Divider, Textarea, Autocomplete, AutocompleteItem } from "@nextui-org/react";
+import { Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Button, Divider, Textarea, Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { LocationDataValues } from "./LocationList";
-import ExportFile from "@/hooks/exportJsonFile";
 
 interface CreatePlaceModalProps {
     isOpen: boolean;
@@ -10,14 +9,20 @@ interface CreatePlaceModalProps {
     latlng: google.maps.LatLngLiteral;
 }
 
-export let listTag = [
+export interface ListData {
+    title: string;
+    tag: string;
+    description: string;
+}
+
+export let listTag: ListData[] = [
     {title: "お気に入り", tag: "favorite" , description: "お気に入りの地点リストです。"}
-]
+];
 
 export default function CreatePlaceModal({latlng, isOpen, onOpen, onOpenChange}: CreatePlaceModalProps) {
     const { handleSubmit, control, register } = useForm<LocationDataValues>();
     const onSubmit: SubmitHandler<LocationDataValues> = (data) => {
-        
+        console.log(data);
     };
 
     return (
@@ -25,8 +30,9 @@ export default function CreatePlaceModal({latlng, isOpen, onOpen, onOpenChange}:
             <Modal
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
-                placement="auto"
+                placement="bottom-center"
                 backdrop="blur"
+                scrollBehavior="outside"
             >
                 <ModalContent>
                     {(onClose) => {
@@ -83,8 +89,10 @@ export default function CreatePlaceModal({latlng, isOpen, onOpen, onOpenChange}:
                                             {...register("description")}
                                         />
                                         <Autocomplete
+                                            isRequired
                                             label={"カテゴリタグ"}
                                             placeholder={"タグを選択"}
+                                            defaultSelectedKey={'favorite'}
                                             defaultItems={listTag}
                                             {...register("tag")}
                                         >
